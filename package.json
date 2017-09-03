@@ -1,0 +1,28 @@
+{
+  "name": "line-chat-parser",
+  "version": "0.0.0",
+  "description": "Parser module for exported LINE chats",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meyfa/line-chat-parser.git"
+  },
+  "keywords": [
+    "line",
+    "parser",
+    "chat"
+  ],
+  "author": "Fabian Meyer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/meyfa/line-chat-parser/issues"
+  },
+  "homepage": "https://github.com/meyfa/line-chat-parser",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.0"
+  }
+}
