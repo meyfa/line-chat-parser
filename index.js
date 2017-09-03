@@ -117,3 +117,41 @@ LineChatParser.prototype.flush = function () {
         this.currentMessage = null;
     }
 };
+
+/**
+ * Static parse function that takes a string or array of all lines, as well as
+ * an array of author names, and returns an array of parsed messages.
+ *
+ * @param {(string|string[])} file - The string or array of lines to parse.
+ * @param {string[]} users - Array of usernames for message author detection.
+ *
+ * @returns {Object[]} Array of parsed messages containing author, date, text.
+ */
+LineChatParser.parse = function (file, users) {
+
+    var parser = new LineChatParser(users);
+
+    var messages = [];
+    parser.on("message", function (msg) {
+        messages.push(msg);
+    });
+
+    var lines = isArray(file) ? file : file.split(/\r?\n/);
+    lines.forEach(function (line) {
+        parser.process(line);
+    });
+    parser.flush();
+
+    return messages;
+
+};
+
+/**
+ * Utility function for checking whether something is an array.
+ */
+function isArray(obj) {
+    if (typeof Array.isArray === "function") {
+        return Array.isArray(obj);
+    }
+    return Object.prototype.toString.call(file) === "[object Array]";
+}

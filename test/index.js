@@ -116,4 +116,45 @@ describe("LineChatParser", function () {
 
     });
 
+    describe("#parse()", function () {
+
+        it("should return an array", function () {
+            expect(LineChatParser.parse("", ["foo"])).to.be.an("array");
+        });
+
+        it("should parse line arrays", function () {
+            var result = LineChatParser.parse([
+                "2017.09.02 Saturday",
+                "12:00 foo hello world",
+                "test",
+            ], ["foo"]);
+            expect(result).to.be.an("array").with.lengthOf(1);
+            expect(result[0]).to.be.an("object").that.deep.includes({
+                author: "foo",
+                text: "hello world\ntest",
+                date: new Date(2017, 8, 2, 12, 0),
+            });
+        });
+
+        it("should parse strings", function () {
+            var result = LineChatParser.parse("2017.09.02 Saturday\n" +
+                "12:00 foo hello world\ntest", ["foo"]);
+            expect(result).to.be.an("array").with.lengthOf(1);
+            expect(result[0]).to.be.an("object").that.deep.includes({
+                author: "foo",
+                text: "hello world\ntest",
+                date: new Date(2017, 8, 2, 12, 0),
+            });
+        });
+
+        it("should convert CRLF to LF", function () {
+            var result = LineChatParser.parse("12:00 foo test\r\ncontinue\r\n" +
+                "13:00 foo other", ["foo"]);
+            expect(result).to.be.an("array").with.lengthOf(2);
+            expect(result[0].text).to.equal("test\ncontinue");
+            expect(result[1].text).to.equal("other");
+        });
+
+    });
+
 });
