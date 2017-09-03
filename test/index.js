@@ -13,4 +13,11 @@ describe("LineChatParser", function () {
         expect(obj.users).to.deep.equal(["foo"]);
     });
 
+    it("should allow attaching event handlers", function () {
+        var obj = new LineChatParser(["foo"]);
+        obj.on("message", function () {
+            // do nothing
+        });
+    });
+
 });

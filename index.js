@@ -1,5 +1,7 @@
 "use strict";
 
+var events = require("events");
+
 module.exports = LineChatParser;
 
 /**
@@ -13,3 +15,5 @@ function LineChatParser(users) {
     }
     this.users = users;
 }
+
+LineChatParser.prototype = Object.create(events.EventEmitter.prototype);
