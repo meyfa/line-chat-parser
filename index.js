@@ -34,7 +34,7 @@ LineChatParser.prototype.process = function (line) {
     var match;
 
     // date header
-    match = line.match(/^(\d{4})\.(\d{2})\.(\d{2}) [A-Z][a-z]+/);
+    match = line.match(/^(\d{4})(?:\.|\/)(\d{2})(?:\.|\/)(\d{2})(?: [A-Z][a-z]+|\(.\))/);
     if (match) {
         var year = parseInt(match[1], 10),
             month = parseInt(match[2], 10) - 1,
@@ -44,14 +44,13 @@ LineChatParser.prototype.process = function (line) {
     }
 
     // message
-    match = line.match(/^(\d{2}):(\d{2}) (\S.+)/);
+    match = line.match(/^(\d{2}):(\d{2})(?: |\t)(\S.+)/);
     if (match) {
         var hours = parseInt(match[1], 10),
             minutes = parseInt(match[2], 10);
         var author = "";
         this.users.forEach(function (user) {
-            var prefix = user + " ";
-            if (user.length > author.length && match[3].indexOf(prefix) === 0) {
+            if (user.length > author.length && match[3].indexOf(user) === 0) {
                 author = user;
             }
         });
