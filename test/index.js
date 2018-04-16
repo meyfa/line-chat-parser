@@ -22,16 +22,32 @@ describe("LineChatParser", function () {
 
     describe("#process()", function () {
 
-        it("should process date headers", function () {
+        it("should process date headers (YYYY.MM.DD dayName)", function () {
             var obj = new LineChatParser(["foo"]);
             obj.process("2017.09.02 Saturday");
             // month is 0-based
             expect(obj.currentDate).to.deep.equal(new Date(2017, 8, 2));
         });
 
-        it("should process message starts", function () {
+        it("should process date headers (YYYY/MM/DD(dayName))", function () {
+            var obj = new LineChatParser(["foo"]);
+            obj.process("2018/04/16(月)");
+            // month is 0-based
+            expect(obj.currentDate).to.deep.equal(new Date(2018, 3, 16));
+        });
+
+        it("should process message starts with spaces", function () {
             var obj = new LineChatParser(["foo"]);
             obj.process("12:00 foo hello world");
+            expect(obj.currentMessage).to.be.an("object").that.includes({
+                author: "foo",
+                text: "hello world",
+            });
+        });
+
+        it("should process message starts with tabs", function () {
+            var obj = new LineChatParser(["foo"]);
+            obj.process("12:00\tfoo\thello world");
             expect(obj.currentMessage).to.be.an("object").that.includes({
                 author: "foo",
                 text: "hello world",
