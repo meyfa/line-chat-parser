@@ -31,6 +31,13 @@ describe("LineChatParser", function () {
 
         it("should process date headers (YYYY/MM/DD(dayName))", function () {
             var obj = new LineChatParser(["foo"]);
+            obj.process("2018/04/16(Mon)");
+            // month is 0-based
+            expect(obj.currentDate).to.deep.equal(new Date(2018, 3, 16));
+        });
+
+        it("should process date headers (YYYY/MM/DD(dayName)) (JP)", function () {
+            var obj = new LineChatParser(["foo"]);
             obj.process("2018/04/16(月)");
             // month is 0-based
             expect(obj.currentDate).to.deep.equal(new Date(2018, 3, 16));
