@@ -34,7 +34,7 @@ LineChatParser.prototype.process = function (line) {
     var match;
 
     // date header
-    match = line.match(/^(\d{4})(?:\.|\/)(\d{2})(?:\.|\/)(\d{2})(?: [A-Z][a-z]+|\(.\))/);
+    match = line.match(/^(\d{4})(?:\.|\/)(\d{2})(?:\.|\/)(\d{2})(?: [A-Z][a-z]+|\(.+\))/);
     if (match) {
         var year = parseInt(match[1], 10),
             month = parseInt(match[2], 10) - 1,
