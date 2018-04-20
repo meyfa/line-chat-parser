@@ -9,11 +9,8 @@ affiliated with nor endorsed by LINE Corporation.
 
 ## Purpose
 
-On the Windows version of LINE, you can export chats by clicking on the three
-horizontal dots in the upper-right corner of a chat window and selecting
-"Save Chat".
-
-The result looks something like this:
+LINE on desktop and mobile allows you to export/save chats. The formats are a
+bit different depending on system and locale, but it looks roughly like this:
 
 ```
 2017.09.03 Sunday
@@ -26,7 +23,7 @@ Apparently there is a Node package for parsing chats now!
 16:30 Alice Looks awesome!
 ```
 
-This package can parse that format into message objects:
+This package can parse these exports into message objects:
 
 ```javascript
 [ { date: '2017-09-03T14:23:00.000Z',
