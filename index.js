@@ -44,9 +44,9 @@ LineChatParser.prototype.process = function (line) {
     }
 
     // message
-    match = line.match(/^(\d{2}):(\d{2})(?: |\t)(\S.+)/);
+    match = line.match(/^(\d{1,2}):(\d{2})(?: |\t)(\S.+)/);
     if (match) {
-        var hours = parseInt(match[1], 10),
+        var hours = parseInt(match[1], 10) % 24,
             minutes = parseInt(match[2], 10);
         var author = "";
         this.users.forEach(function (user) {

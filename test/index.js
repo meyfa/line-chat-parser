@@ -61,6 +61,20 @@ describe("LineChatParser", function () {
             });
         });
 
+        it("should process hours with one digit", function () {
+            var obj = new LineChatParser(["foo"]);
+            obj.currentDate = new Date(2018, 3, 19);
+            obj.process("5:06\tfoo\thello world");
+            expect(obj.currentMessage.date).to.deep.equal(new Date(2018, 3, 19, 5, 6));
+        });
+
+        it("should process hour in case of 24", function () {
+            var obj = new LineChatParser(["foo"]);
+            obj.currentDate = new Date(2018, 3, 19);
+            obj.process("24:53\tfoo\thello world");
+            expect(obj.currentMessage.date).to.deep.equal(new Date(2018, 3, 19, 0, 53));
+        });
+
         it("should extend the base date in message starts", function () {
             var obj = new LineChatParser(["foo"]);
             obj.currentDate = new Date(2017, 8, 2);
