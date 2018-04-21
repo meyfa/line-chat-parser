@@ -132,22 +132,22 @@ describe("LineChatParser", function () {
             obj.process("2017.09.02 Saturday");
         });
 
-        it('should process multi-line messages without users argument', function() {
+        it("should process multi-line messages without users argument", function() {
             var obj = new LineChatParser();
-            obj.process('12:00\tfoo bar\tfirst line');
-            obj.process('second line\twith tab');
-            obj.process('third line');
-            expect(obj.currentMessage.author).to.equal('foo bar');
-            expect(obj.currentMessage.text).to.equal('first line\nsecond line\twith tab\nthird line');
+            obj.process("12:00\tfoo bar\tfirst line");
+            obj.process("second line\twith tab");
+            obj.process("third line");
+            expect(obj.currentMessage.author).to.equal("foo bar");
+            expect(obj.currentMessage.text).to.equal("first line\nsecond line\twith tab\nthird line");
         });
 
-        it('should process messages with tab and users argument separated by spaces', function() {
+        it("should process messages with tab and users argument separated by spaces", function() {
             var obj = new LineChatParser(["foo", "foo bar"]);
-            obj.process('12:00 foo bar first\tline');
-            obj.process('second line\twith tab');
-            obj.process('third line');
-            expect(obj.currentMessage.author).to.equal('foo bar');
-            expect(obj.currentMessage.text).to.equal('first\tline\nsecond line\twith tab\nthird line');
+            obj.process("12:00 foo bar first\tline");
+            obj.process("second line\twith tab");
+            obj.process("third line");
+            expect(obj.currentMessage.author).to.equal("foo bar");
+            expect(obj.currentMessage.text).to.equal("first\tline\nsecond line\twith tab\nthird line");
         });
 
     });
