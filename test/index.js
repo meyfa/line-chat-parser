@@ -109,7 +109,6 @@ describe("LineChatParser", function () {
         it("should emit the message when a new one starts", function (done) {
             var obj = new LineChatParser(["foo"]);
             obj.on("message", function (msg) {
-                //console.log(msg);
                 expect(msg).to.be.an("object").that.includes({
                     author: "foo",
                     text: "hello other",
@@ -131,6 +130,24 @@ describe("LineChatParser", function () {
             });
             obj.process("12:00 foo hello date");
             obj.process("2017.09.02 Saturday");
+        });
+
+        it('should process multi-line messages without users argument', function() {
+            var obj = new LineChatParser();
+            obj.process('12:00\tfoo bar\tfirst line');
+            obj.process('second line\twith tab');
+            obj.process('third line');
+            expect(obj.currentMessage.author).to.equal('foo bar');
+            expect(obj.currentMessage.text).to.equal('first line\nsecond line\twith tab\nthird line');
+        });
+
+        it('should process messages with tab and users argument separated by spaces', function() {
+            var obj = new LineChatParser(["foo", "foo bar"]);
+            obj.process('12:00 foo bar first\tline');
+            obj.process('second line\twith tab');
+            obj.process('third line');
+            expect(obj.currentMessage.author).to.equal('foo bar');
+            expect(obj.currentMessage.text).to.equal('first\tline\nsecond line\twith tab\nthird line');
         });
 
     });
@@ -170,6 +187,26 @@ describe("LineChatParser", function () {
                 author: "foo",
                 text: "hello world\ntest",
                 date: new Date(2017, 8, 2, 12, 0),
+            });
+        });
+
+        it("should parse line arrays without users argument", function () {
+            var result = LineChatParser.parse([
+                "2017.09.02 Saturday",
+                "12:00\tfoo\thello world",
+                "test",
+                "12:01\tfoo bar\tsecond message\ttab in a message",
+            ]);
+            expect(result).to.be.an("array").with.lengthOf(2);
+            expect(result[0]).to.be.an("object").that.deep.includes({
+                author: "foo",
+                text: "hello world\ntest",
+                date: new Date(2017, 8, 2, 12, 0),
+            });
+            expect(result[1]).to.be.an("object").that.deep.includes({
+                author: "foo bar",
+                text: "second message\ttab in a message",
+                date: new Date(2017, 8, 2, 12, 1),
             });
         });
 
