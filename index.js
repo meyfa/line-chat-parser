@@ -44,17 +44,21 @@ LineChatParser.prototype.process = function (line) {
     }
 
     // message
-    match = line.match(/^(\d{1,2}):(\d{2})(?: |\t)(\S.+)/);
+    if (typeof this.users === "undefined") {
+        match = line.match(/^(\d{1,2}):(\d{2})(?: |\t)([^\t\n]+)\t?(.+)?/);
+    } else {
+        match = line.match(/^(\d{1,2}):(\d{2})(?: |\t)(\S.+)/);
+    }
     if (match) {
         var hours = parseInt(match[1], 10) % 24,
             minutes = parseInt(match[2], 10);
-        var author = "";
-        this.users.forEach(function (user) {
-            if (user.length > author.length && match[3].indexOf(user) === 0) {
-                author = user;
+        var author = match[4] ? match[3] : this.users.reduce(function (previousValue, user) {
+            if (user.length > previousValue.length && match[3].indexOf(user) === 0) {
+                return user;
             }
-        });
-        var text = match[3].substring(author.length + 1);
+            return previousValue;
+        }, "");
+        var text = match[4] || match[3].substring(author.length + 1);
         this.processMessageStart(hours, minutes, author, text);
         return;
     }
