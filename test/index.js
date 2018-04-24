@@ -229,6 +229,12 @@ describe("LineChatParser", function () {
             expect(result[1].text).to.equal("other");
         });
 
+        it("should not fail for leading newlines in message text", function () {
+            var result = LineChatParser.parse("12:00\tfoo\t\n2nd line\n3rd\n" +
+                "13:00\tbar\t\n\nmessage with two linebreaks");
+            expect(result).to.be.an("array").with.lengthOf(2);
+        });
+
     });
 
 });
