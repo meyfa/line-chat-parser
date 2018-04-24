@@ -233,6 +233,8 @@ describe("LineChatParser", function () {
             var result = LineChatParser.parse("12:00\tfoo\t\n2nd line\n3rd\n" +
                 "13:00\tbar\t\n\nmessage with two linebreaks");
             expect(result).to.be.an("array").with.lengthOf(2);
+            expect(result[0].text).to.equal("\n2nd line\n3rd");
+            expect(result[1].text).to.equal("\n\nmessage with two linebreaks");
         });
 
     });

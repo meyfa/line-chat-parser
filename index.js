@@ -34,7 +34,7 @@ LineChatParser.prototype.process = function (line) {
     var match;
 
     // date header
-    match = line.match(/^(\d{4})(?:\.|\/)(\d{2})(?:\.|\/)(\d{2})(?: [A-Z][a-z]+|\(.+\))/);
+    match = line.match(/^(\d{4})[./](\d{2})[./](\d{2})(?: [A-Z][a-z]+|\(.+\))/);
     if (match) {
         var year = parseInt(match[1], 10),
             month = parseInt(match[2], 10) - 1,
@@ -45,14 +45,14 @@ LineChatParser.prototype.process = function (line) {
 
     // message
     if (typeof this.users === "undefined") {
-        match = line.match(/^(\d{1,2}):(\d{2})(?: |\t)([^\t\n]+)\t?(.+)?/);
+        match = line.match(/^(\d{1,2}):(\d{2})[ \t]([^\t\n]+)\t?(.*)/);
     } else {
-        match = line.match(/^(\d{1,2}):(\d{2})(?: |\t)(\S.+)/);
+        match = line.match(/^(\d{1,2}):(\d{2})[ \t](\S.+)/);
     }
     if (match) {
         var hours = parseInt(match[1], 10) % 24,
             minutes = parseInt(match[2], 10);
-        var author = match[4] ? match[3] : this.users.reduce(function (previousValue, user) {
+        var author = typeof this.users === "undefined" ? match[3] : this.users.reduce(function (previousValue, user) {
             if (user.length > previousValue.length && match[3].indexOf(user) === 0) {
                 return user;
             }
