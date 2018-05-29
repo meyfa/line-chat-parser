@@ -1,6 +1,8 @@
 # line-chat-parser
 
 [![Build Status](https://travis-ci.org/meyfa/line-chat-parser.svg?branch=master)](https://travis-ci.org/meyfa/line-chat-parser)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b8bc10ac14103c158e75/test_coverage)](https://codeclimate.com/github/meyfa/line-chat-parser/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b8bc10ac14103c158e75/maintainability)](https://codeclimate.com/github/meyfa/line-chat-parser/maintainability)
 
 JavaScript parser module for exported [LINE](https://line.me/) chats.
 
