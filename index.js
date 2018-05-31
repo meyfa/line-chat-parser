@@ -1,13 +1,14 @@
 "use strict";
 
-var events = require("events");
+const events = require("events");
 
 module.exports = LineChatParser;
 
 /**
  * Constructor.
  *
- * @param {string[]} users - Array of usernames for message author detection.
+ * @param {string[]} users Array of usernames for message author detection.
+ * @constructor
  */
 function LineChatParser(users) {
     if (!(this instanceof LineChatParser)) {
@@ -28,17 +29,18 @@ LineChatParser.prototype = Object.create(events.EventEmitter.prototype);
  * Make sure to call flush() when all lines have been processed.
  *
  * @param {string} line - The chat export line.
+ * @return {void}
  */
 LineChatParser.prototype.process = function (line) {
 
-    var match;
+    let match;
 
     // date header
     match = line.match(/^(\d{4})[./](\d{2})[./](\d{2})(?: [A-Z][a-z]+|\(.+\))/);
     if (match) {
-        var year = parseInt(match[1], 10),
-            month = parseInt(match[2], 10) - 1,
-            day = parseInt(match[3], 10);
+        const year = parseInt(match[1], 10);
+        const month = parseInt(match[2], 10) - 1;
+        const day = parseInt(match[3], 10);
         this.processDateHeader(year, month, day);
         return;
     }
@@ -50,15 +52,15 @@ LineChatParser.prototype.process = function (line) {
         match = line.match(/^(\d{1,2}):(\d{2})[ \t](\S.+)/);
     }
     if (match) {
-        var hours = parseInt(match[1], 10) % 24,
-            minutes = parseInt(match[2], 10);
-        var author = typeof this.users === "undefined" ? match[3] : this.users.reduce(function (previousValue, user) {
+        const hours = parseInt(match[1], 10) % 24;
+        const minutes = parseInt(match[2], 10);
+        const author = typeof this.users === "undefined" ? match[3] : this.users.reduce((previousValue, user) => {
             if (user.length > previousValue.length && match[3].indexOf(user) === 0) {
                 return user;
             }
             return previousValue;
         }, "");
-        var text = match[4] || match[3].substring(author.length + 1);
+        const text = match[4] || match[3].substring(author.length + 1);
         this.processMessageStart(hours, minutes, author, text);
         return;
     }
@@ -73,6 +75,7 @@ LineChatParser.prototype.process = function (line) {
  * @param {number} year - The year.
  * @param {number} month - The 0-based month (0 for January).
  * @param {number} day - The 1-based day.
+ * @return {void}
  */
 LineChatParser.prototype.processDateHeader = function (year, month, day) {
     this.flush();
@@ -86,10 +89,11 @@ LineChatParser.prototype.processDateHeader = function (year, month, day) {
  * @param {number} minutes - The minute at which the message was sent (0 to 59).
  * @param {string} author - The message author.
  * @param {string} text - The message text.
+ * @return {void}
  */
 LineChatParser.prototype.processMessageStart = function (hours, minutes, author, text) {
     this.flush();
-    var date = new Date(this.currentDate.getTime());
+    const date = new Date(this.currentDate.getTime());
     date.setHours(hours, minutes);
     this.currentMessage = {
         date: date,
@@ -102,6 +106,7 @@ LineChatParser.prototype.processMessageStart = function (hours, minutes, author,
  * Processes further text belonging to the previously started message.
  *
  * @param {string} text - The message text to append.
+ * @return {void}
  */
 LineChatParser.prototype.processMessageContinuation = function (text) {
     if (this.currentMessage) {
@@ -113,6 +118,8 @@ LineChatParser.prototype.processMessageContinuation = function (text) {
  * Ends and emits the current message, if one exists.
  * Call this after all lines have been processed. Otherwise, the message will
  * only be emitted when further lines mark the beginning of a new message.
+ *
+ * @return {void}
  */
 LineChatParser.prototype.flush = function () {
     if (this.currentMessage) {
@@ -128,21 +135,17 @@ LineChatParser.prototype.flush = function () {
  * @param {(string|string[])} file - The string or array of lines to parse.
  * @param {string[]} users - Array of usernames for message author detection.
  *
- * @returns {Object[]} Array of parsed messages containing author, date, text.
+ * @return {Object[]} Array of parsed messages containing author, date, text.
  */
 LineChatParser.parse = function (file, users) {
 
-    var parser = new LineChatParser(users);
+    const parser = new LineChatParser(users);
 
-    var messages = [];
-    parser.on("message", function (msg) {
-        messages.push(msg);
-    });
+    const messages = [];
+    parser.on("message", (msg) => messages.push(msg));
 
-    var lines = isArray(file) ? file : file.split(/\r?\n/);
-    lines.forEach(function (line) {
-        parser.process(line);
-    });
+    const lines = isArray(file) ? file : file.split(/\r?\n/);
+    lines.forEach((line) => parser.process(line));
     parser.flush();
 
     return messages;
@@ -151,6 +154,9 @@ LineChatParser.parse = function (file, users) {
 
 /**
  * Utility function for checking whether something is an array.
+ *
+ * @param {*} obj The thing to check.
+ * @return {boolean} Whether the argument is an array.
  */
 function isArray(obj) {
     if (typeof Array.isArray === "function") {
