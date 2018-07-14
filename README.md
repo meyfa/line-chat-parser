@@ -80,11 +80,11 @@ all lines are known yet -- it emits a `message` event every time a message is
 complete.
 
 ```javascript
-var LineChatParser = require("line-chat-parser");
+const LineChatParser = require("line-chat-parser");
 
 // as stated above, you can leave out the user name array when processing
 // mobile app exports
-var parser = new LineChatParser(["Alice", "Bob"]);
+let parser = new LineChatParser(["Alice", "Bob"]);
 parser.on("message", function (msg) {
     console.log(msg);
 });
@@ -107,9 +107,9 @@ complete message array immediately without listening for events.
 You can supply an array of lines or a single string with line terminators.
 
 ```javascript
-var LineChatParser = require("line-chat-parser");
+const LineChatParser = require("line-chat-parser");
 
-var messages = LineChatParser.parse([
+let messages = LineChatParser.parse([
     "2017.09.03 Sunday",
     "16:23 Bob Today I found something:",
     "Apparently there is a Node package for parsing chats now!",
@@ -121,7 +121,7 @@ var messages = LineChatParser.parse([
 
 // or, alternatively:
 
-var messages = LineChatParser.parse("2017.09.03 Sunday\n" +
+let messages = LineChatParser.parse("2017.09.03 Sunday\n" +
     "16:23 Bob Today I found something:\n" +
     "Apparently there is a Node package for parsing chats now!\n" +
     "16:25 Alice Whaaat", ["Alice", "Bob"]);
