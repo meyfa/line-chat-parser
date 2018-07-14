@@ -59,10 +59,21 @@ npm install --save line-chat-parser
 
 ## Usage
 
+### Note: user name array
+
+Exports from the Windows .exe (not the Store app) are formatted with single
+spaces. This makes it impossible to correctly detect user names without a list
+of participating users.
+
+Exports from the mobile app separate the names from the message bodies with tab
+characters. There, you can do without the user list.
+
+What you need ultimately comes down to what kind of export you want to process.
+
 There are two ways to use the parser. Note that both require an array of
 participating users so that the message authors can be deduced correctly.
 
-### Asynchronously ('message' event)
+### Asynchronous parsing ('message' event)
 
 The asynchronous method should be used with huge amounts of messages or when not
 all lines are known yet -- it emits a `message` event every time a message is
@@ -71,6 +82,8 @@ complete.
 ```javascript
 var LineChatParser = require("line-chat-parser");
 
+// as stated above, you can leave out the user name array when processing
+// mobile app exports
 var parser = new LineChatParser(["Alice", "Bob"]);
 parser.on("message", function (msg) {
     console.log(msg);
@@ -86,7 +99,7 @@ parser.process("16:25 Alice Whaaat");
 parser.flush();
 ```
 
-### Synchronously (static 'parse' function)
+### Synchronous parsing (static 'parse' function)
 
 Use this method when you have the full file in memory already and/or need the
 complete message array immediately without listening for events.
@@ -103,6 +116,8 @@ var messages = LineChatParser.parse([
     "16:25 Alice Whaaat",
     // ...
 ], ["Alice", "Bob"]);
+// as stated above, you can leave out the user name array when processing
+// mobile app exports
 
 // or, alternatively:
 
@@ -113,10 +128,6 @@ var messages = LineChatParser.parse("2017.09.03 Sunday\n" +
 
 console.log(messages);
 ```
-
-## Tests
-
-Tests are run using mocha. Start them with `npm test` after `npm install`.
 
 ## License
 
