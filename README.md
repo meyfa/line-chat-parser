@@ -54,7 +54,7 @@ represented here as strings because there are no date literals in JavaScript.
 This package is available on NPM:
 
 ```
-npm install --save line-chat-parser
+npm i line-chat-parser
 ```
 
 ## Usage
@@ -128,7 +128,3 @@ let messages = LineChatParser.parse("2017.09.03 Sunday\n" +
 
 console.log(messages);
 ```
-
-## License
-
-The MIT license. See the accompanying "LICENSE" file.

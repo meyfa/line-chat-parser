@@ -6,13 +6,6 @@ const LineChatParser = require("../");
 
 describe("LineChatParser", function () {
 
-    it("should self-construct when invoked as a function", function () {
-        // eslint-disable-next-line new-cap
-        const obj = LineChatParser(["foo"]);
-        expect(obj).to.be.an.instanceof(LineChatParser);
-        expect(obj.users).to.deep.equal(["foo"]);
-    });
-
     it("should allow attaching event handlers", function () {
         const obj = new LineChatParser(["foo"]);
         obj.on("message", function () {
