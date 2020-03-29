@@ -80,23 +80,23 @@ all lines are known yet -- it emits a `message` event every time a message is
 complete.
 
 ```javascript
-const LineChatParser = require("line-chat-parser");
+const LineChatParser = require('line-chat-parser')
 
 // as stated above, you can leave out the user name array when processing
 // mobile app exports
-let parser = new LineChatParser(["Alice", "Bob"]);
-parser.on("message", function (msg) {
-    console.log(msg);
-});
+let parser = new LineChatParser(['Alice', 'Bob'])
+parser.on('message', function (msg) {
+  console.log(msg)
+})
 
-parser.process("2017.09.03 Sunday");
-parser.process("16:23 Bob Today I found something:");
-parser.process("Apparently there is a Node package for parsing chats now!");
+parser.process('2017.09.03 Sunday')
+parser.process('16:23 Bob Today I found something:')
+parser.process('Apparently there is a Node package for parsing chats now!')
 // now the message is done and the event is emitted
-parser.process("16:25 Alice Whaaat");
+parser.process('16:25 Alice Whaaat')
 // ...
 // IMPORTANT - always call flush - it emits the final message
-parser.flush();
+parser.flush()
 ```
 
 ### Synchronous parsing (static 'parse' function)
@@ -107,24 +107,24 @@ complete message array immediately without listening for events.
 You can supply an array of lines or a single string with line terminators.
 
 ```javascript
-const LineChatParser = require("line-chat-parser");
+const LineChatParser = require('line-chat-parser')
 
-let messages = LineChatParser.parse([
-    "2017.09.03 Sunday",
-    "16:23 Bob Today I found something:",
-    "Apparently there is a Node package for parsing chats now!",
-    "16:25 Alice Whaaat",
-    // ...
-], ["Alice", "Bob"]);
+const messages = LineChatParser.parse([
+  '2017.09.03 Sunday',
+  '16:23 Bob Today I found something:',
+  'Apparently there is a Node package for parsing chats now!',
+  '16:25 Alice Whaaat',
+  // ...
+], ['Alice', 'Bob'])
 // as stated above, you can leave out the user name array when processing
 // mobile app exports
 
 // or, alternatively:
 
-let messages = LineChatParser.parse("2017.09.03 Sunday\n" +
-    "16:23 Bob Today I found something:\n" +
-    "Apparently there is a Node package for parsing chats now!\n" +
-    "16:25 Alice Whaaat", ["Alice", "Bob"]);
+const messages = LineChatParser.parse('2017.09.03 Sunday\n' +
+  '16:23 Bob Today I found something:\n' +
+  'Apparently there is a Node package for parsing chats now!\n' +
+  '16:25 Alice Whaaat', ['Alice', 'Bob'])
 
-console.log(messages);
+console.log(messages)
 ```

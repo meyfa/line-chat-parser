@@ -4,6 +4,8 @@
   "description": "Parser module for exported LINE chats",
   "main": "index.js",
   "scripts": {
+    "lint": "standard",
+    "lint-fix": "standard --fix",
     "test": "mocha --recursive",
     "coverage": "nyc --reporter=lcov mocha --recursive"
   },
@@ -26,5 +28,8 @@
     "chai": "^4.2.0",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0"
+  },
+  "dependencies": {
+    "standard": "^14.3.3"
   }
 }
