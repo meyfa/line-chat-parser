@@ -1,6 +1,6 @@
 # line-chat-parser
 
-[![Build Status](https://travis-ci.com/meyfa/line-chat-parser.svg?branch=master)](https://travis-ci.com/meyfa/line-chat-parser)
+[![CI](https://github.com/meyfa/line-chat-parser/actions/workflows/main.yml/badge.svg)](https://github.com/meyfa/line-chat-parser/actions/workflows/main.yml)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b8bc10ac14103c158e75/test_coverage)](https://codeclimate.com/github/meyfa/line-chat-parser/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b8bc10ac14103c158e75/maintainability)](https://codeclimate.com/github/meyfa/line-chat-parser/maintainability)
 
