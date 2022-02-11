@@ -139,7 +139,10 @@ module.exports = LineChatParser
  */
 function matchDateHeader (line) {
   const match = line.match(/^(\d{4})[./](\d{2})[./](\d{2})(?: [A-Z][a-z]+|\(.+\))/)
-  return !match ? null : {
+  if (match == null) {
+    return null
+  }
+  return {
     year: parseInt(match[1], 10),
     month: parseInt(match[2], 10) - 1,
     day: parseInt(match[3], 10)
